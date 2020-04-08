@@ -31,11 +31,13 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
     try {
-        const user = 'admin';
         const password = 'BiYD7SnZUCpfuaKU';
-        const url = `mongodb+srv://admin:${password}@cluster0-vmmod.mongodb.net/test?retryWrites=true&w=majority`
+        const url = `mongodb+srv://admin:${password}@cluster0-vmmod.mongodb.net/shop`
 
-        await mongoose.connect(url, { useNewUrlParser: true });
+        await mongoose.connect(url, {
+            useNewUrlParser: true,
+            useFindAndModify: false
+        });
         app.listen(PORT, () => {
             console.log(`Server is running on port: ${PORT}`)
         });
