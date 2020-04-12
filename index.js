@@ -16,8 +16,7 @@ const authRoutes = require('./routes/auth');
 
 const varMiddleware = require('./middleware/variables');
 const userMiddleware = require('./middleware/user');
-
-const MONGODB_URI = 'mongodb+srv://admin:BiYD7SnZUCpfuaKU@cluster0-vmmod.mongodb.net/shop';
+const keys = require('./keys');
 
 const app = express();
 
@@ -27,7 +26,7 @@ const hbs = exphbs.create({
 });
 const store = new MongoDBStore({
     collection: 'sessions',
-    uri: MONGODB_URI
+    uri: keys.MONGODB_URI
 });
 
 
@@ -38,7 +37,7 @@ app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'some secret value',
+    secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store
@@ -55,18 +54,15 @@ app.use('/card', cardRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/auth', authRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-
 async function start() {
     try {
 
-        await mongoose.connect(MONGODB_URI, {
+        await mongoose.connect(keys.MONGODB_URI, {
             useNewUrlParser: true,
             useFindAndModify: false
         });
-        app.listen(PORT, () => {
-            console.log(`Server is running on port: ${PORT}`)
+        app.listen(keys.PORT, () => {
+            console.log(`Server is running on port: ${keys.PORT}`)
         });
     } catch (err) {
         console.log(err)
