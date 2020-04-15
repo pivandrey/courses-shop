@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
+const helmet = require('helmet');
+const compression = require('compression');
 
 const homeRoutes = require('./routes/home');
 const addRoutes = require('./routes/add');
@@ -51,6 +53,8 @@ app.use(session({
 app.use(fileMiddleware.single('avatar'));
 app.use(csrf());
 app.use(flash());
+app.use(helmet());
+app.use(compression());
 app.use(varMiddleware);
 app.use(userMiddleware);
 
@@ -66,7 +70,6 @@ app.use(errorHandler);
 
 async function start() {
     try {
-
         await mongoose.connect(keys.MONGODB_URI, {
             useNewUrlParser: true,
             useFindAndModify: false
