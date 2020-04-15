@@ -9,6 +9,11 @@
 # production
 /build
 
+# images
+/images
+
+/keys/keys.dev.js
+
 # misc
 .DS_Store
 .env.local
