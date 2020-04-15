@@ -9,9 +9,6 @@
 # production
 /build
 
-# images
-/images
-
 /keys/keys.dev.js
 
 # misc
